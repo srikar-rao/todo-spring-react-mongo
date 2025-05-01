@@ -20,6 +20,13 @@ management:
     enable:
       http: true  # Ensures HTTP metrics are emitted
 
+  tracing:
+    sampling:
+      probability: 1.0   # 100% sampling for dev; reduce for production
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
 
 spring:
   application:

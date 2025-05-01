@@ -1,3 +1,26 @@
+management:
+  server:
+    port: 8082  # Actuator runs on its own port (recommended for prod)
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true  # Enable histogram buckets for latency
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99  # Useful percentiles for latency monitoring
+    enable:
+      http: true  # Ensures HTTP metrics are emitted
+
+
 spring:
   application:
     name: todo-service

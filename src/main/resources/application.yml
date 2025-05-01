@@ -49,3 +49,8 @@ logging:
   level:
     root: INFO
     com.prod.todo: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /docs
+

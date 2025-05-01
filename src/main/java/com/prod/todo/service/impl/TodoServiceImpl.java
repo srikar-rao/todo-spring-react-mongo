@@ -43,6 +43,7 @@ public class TodoServiceImpl implements TodoService {
                         .description(todo.getDescription())
                         .build()
         );
+        log.info("Successfully saved todo : {}", newTodo);
         return modelMapper.map(newTodo, Todo.class);
     }
 

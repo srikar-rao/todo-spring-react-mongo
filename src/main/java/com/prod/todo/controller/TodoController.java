@@ -86,7 +86,6 @@ public class TodoController {
     })
     @DeleteMapping(
             value = "/delete/{id}",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseStatus createTodo(@PathVariable Long id) {

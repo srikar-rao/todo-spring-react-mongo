@@ -79,6 +79,9 @@ logging:
   level:
     root: INFO
     com.prod.todo: DEBUG
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: DEBUG
 
 springdoc:
   swagger-ui:

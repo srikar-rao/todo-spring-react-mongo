@@ -15,7 +15,7 @@
                 <pattern>
                     <pattern>
                         {
-                        "service" : "eos-kafka-service",
+                        "service" : "todo-prod-service",
                         "level": "%p",
                         "thread": "%thread",
                         "trace": "%X{traceId:-}",

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -26,7 +25,7 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
-    private final PlatformTransactionManager transactionManager;
+    private final TransactionTemplate transactionTemplate;
     private final TodoMapper todoMapper;
 
     @Override
@@ -57,8 +56,6 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public ResponseStatus deleteTodo(Long id) {
-
-        TransactionTemplate transactionTemplate = new TransactionTemplate(transactionManager);
 
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRES_NEW);
         transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_SERIALIZABLE);

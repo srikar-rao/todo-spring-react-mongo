@@ -7,6 +7,10 @@ import java.util.Locale;
 
 public final class TodoMapperHelper {
 
+    private TodoMapperHelper() {
+        throw new UnsupportedOperationException("Utility class should not be instantiated");
+    }
+
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("MM/dd/yyyy hh:mm a z")
             .withLocale(Locale.US)
             .withZone(ZoneId.of("America/New_York")); // or ZoneId.systemDefault()

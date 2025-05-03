@@ -1,14 +1,13 @@
 package com.prod.todo.model;
 
 import com.prod.todo.enums.TodoStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 
-@Data
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -33,4 +32,8 @@ public class Todo {
     private Instant updatedAt;
 
     private String updatedBy;
+
+    private String localeCreatedAt;
+
+    private String localeUpdatedAt;
 }

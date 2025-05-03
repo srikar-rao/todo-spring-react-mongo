@@ -1,6 +1,7 @@
 package com.prod.todo.service.impl;
 
 import com.prod.todo.entity.TodoEntity;
+import com.prod.todo.mapper.TodoMapper;
 import com.prod.todo.model.ResponseStatus;
 import com.prod.todo.model.Todo;
 import com.prod.todo.repository.TodoRepository;
@@ -26,13 +27,11 @@ public class TodoServiceImpl implements TodoService {
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
     private final PlatformTransactionManager transactionManager;
+    private final TodoMapper todoMapper;
 
     @Override
     public List<Todo> getAllTodos() {
-        return todoRepository.findAll()
-                .stream()
-                .map(todoEntity -> modelMapper.map(todoEntity, Todo.class))
-                .toList();
+        return todoMapper.toModelListWithLocale(todoRepository.findAll());
     }
 
     @Override
@@ -50,14 +49,10 @@ public class TodoServiceImpl implements TodoService {
     )
     public Todo saveTodo(Todo todo) {
         TodoEntity newTodo = todoRepository.save(
-                TodoEntity
-                        .builder()
-                        .title(todo.getTitle())
-                        .description(todo.getDescription())
-                        .build()
+                todoMapper.toNewEntity(todo)
         );
         log.info("Successfully saved todo : {}", newTodo);
-        return modelMapper.map(newTodo, Todo.class);
+        return todoMapper.toModelWithLocale(newTodo);
     }
 
     @Override

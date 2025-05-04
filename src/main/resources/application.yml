@@ -61,6 +61,8 @@ spring:
         order_updates: true
         batch_size: 1000         # Enable batching for performance
         generate_statistics: false
+        connection:
+          autocommit: false
   sql:
     init:
       mode: never

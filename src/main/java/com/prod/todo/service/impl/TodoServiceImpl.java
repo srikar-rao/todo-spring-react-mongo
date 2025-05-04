@@ -1,11 +1,14 @@
 package com.prod.todo.service.impl;
 
 import com.prod.todo.entity.TodoEntity;
+import com.prod.todo.entity.TodoLogEntity;
 import com.prod.todo.mapper.TodoMapper;
 import com.prod.todo.model.ResponseStatus;
 import com.prod.todo.model.Todo;
+import com.prod.todo.repository.TodoLogRepository;
 import com.prod.todo.repository.TodoRepository;
 import com.prod.todo.service.TodoService;
+import com.prod.todo.util.JsonUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,6 +27,7 @@ import java.util.List;
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
+    private final TodoLogRepository todoLogRepository;
     private final ModelMapper modelMapper;
     private final TransactionTemplate transactionTemplate;
     private final TodoMapper todoMapper;
@@ -49,6 +53,13 @@ public class TodoServiceImpl implements TodoService {
     public Todo saveTodo(Todo todo) {
         TodoEntity newTodo = todoRepository.save(
                 todoMapper.toNewEntity(todo)
+        );
+        todoLogRepository.save(
+                TodoLogEntity
+                        .builder()
+                        .todoId(newTodo.getId())
+                        .snapshot(JsonUtil.toJsonNode(newTodo))
+                        .build()
         );
         log.info("Successfully saved todo : {}", newTodo);
         return todoMapper.toModelWithLocale(newTodo);

@@ -1,9 +1,11 @@
 package com.prod.todo.unit.service;
 
 import com.prod.todo.entity.TodoEntity;
+import com.prod.todo.entity.TodoLogEntity;
 import com.prod.todo.mapper.TodoMapper;
 import com.prod.todo.model.ResponseStatus;
 import com.prod.todo.model.Todo;
+import com.prod.todo.repository.TodoLogRepository;
 import com.prod.todo.repository.TodoRepository;
 import com.prod.todo.service.impl.TodoServiceImpl;
 import org.instancio.Instancio;
@@ -30,6 +32,9 @@ class TodoServiceImplUnitTest {
 
     @Mock
     private TodoRepository todoRepository;
+
+    @Mock
+    private TodoLogRepository todoLogRepository;
 
     @Mock
     private ModelMapper modelMapper;
@@ -84,12 +89,14 @@ class TodoServiceImplUnitTest {
 
         when(todoMapper.toNewEntity(input)).thenReturn(entityToSave);
         when(todoRepository.save(entityToSave)).thenReturn(savedEntity);
+        when(todoLogRepository.save(any())).thenReturn(Instancio.of(TodoLogEntity.class).create());
         when(todoMapper.toModelWithLocale(savedEntity)).thenReturn(expected);
 
         Todo result = todoService.saveTodo(input);
 
         assertThat(result).isEqualTo(expected);
         verify(todoRepository).save(entityToSave);
+        verify(todoLogRepository).save(any());
     }
 
     @Test

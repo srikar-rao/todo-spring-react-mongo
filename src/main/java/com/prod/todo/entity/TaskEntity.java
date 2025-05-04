@@ -10,8 +10,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -22,12 +20,8 @@ import java.util.List;
 @ToString
 @Table(name = "todo")
 @EntityListeners(AuditingEntityListener.class)
-public class TodoEntity {
+public class TaskEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id", nullable = false, updatable = false)
-    @OrderBy("createdAt ASC")
-    List<TaskEntity> tasks = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

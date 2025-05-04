@@ -54,13 +54,13 @@ class TodoServiceImplUnitTest {
         TodoEntity entity = Instancio.of(TodoEntity.class).create();
         Todo expectedTodo = Instancio.of(Todo.class).create();
 
-        when(todoRepository.findAll()).thenReturn(List.of(entity));
+        when(todoRepository.findAllWithTasks()).thenReturn(List.of(entity));
         when(todoMapper.toModelListWithLocale(List.of(entity))).thenReturn(List.of(expectedTodo));
 
         List<Todo> result = todoService.getAllTodos();
 
         assertThat(result).containsExactly(expectedTodo);
-        verify(todoRepository).findAll();
+        verify(todoRepository).findAllWithTasks();
     }
 
     @Test

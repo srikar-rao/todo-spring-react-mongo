@@ -34,7 +34,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public List<Todo> getAllTodos() {
-        return todoMapper.toModelListWithLocale(todoRepository.findAll());
+        return todoMapper.toModelListWithLocale(todoRepository.findAllWithTasks());
     }
 
     @Override

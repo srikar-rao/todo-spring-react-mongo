@@ -4,7 +4,6 @@ import com.prod.todo.enums.TodoStatus;
 import lombok.*;
 
 import java.time.Instant;
-import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Todo {
+public class Task {
 
     private Long id;
 
@@ -38,5 +37,4 @@ public class Todo {
 
     private String localeUpdatedAt;
 
-    private List<Task> tasks;
 }

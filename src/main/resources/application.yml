@@ -109,4 +109,8 @@ logging:
 springdoc:
   swagger-ui:
     path: /docs
+    display-request-duration: true
+    persist-authorization: true
+  api-docs:
+    path: /v3/api-docs
 

@@ -77,6 +77,7 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
 
   security:
+    enabled: false
     oauth2:
       resourceserver:
         jwt:

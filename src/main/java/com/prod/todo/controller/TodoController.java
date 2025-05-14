@@ -73,6 +73,25 @@ public class TodoController {
         return todoService.saveTodo(todo);
     }
 
+    @Operation(
+            summary = "Update todo",
+            description = "Update a todo item with the provided details."
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Todo successfully updated",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            schema = @Schema(implementation = Todo.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
+    })
+    @PutMapping(
+            value = "/update",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Todo updateTodo(@RequestBody Todo todo) {
+        return todoService.update(todo);
+    }
+
 
     @Operation(
             summary = "Delete todo by ID",

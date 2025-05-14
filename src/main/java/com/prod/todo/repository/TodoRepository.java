@@ -23,6 +23,9 @@ public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
     @Query("SELECT t FROM TodoEntity t")
     List<TodoEntity> findAllWithTasksUsingGraph();
 
+    @Query("SELECT t FROM TodoEntity t LEFT JOIN FETCH t.tasks WHERE t.id =:id")
+    Optional<TodoEntity> findByIdWithTasks(@Param("id") Long id);
+
 
     /**
      * Fetches the entity using a pessimistic locks on the parent row.

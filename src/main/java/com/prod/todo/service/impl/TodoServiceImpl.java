@@ -9,9 +9,14 @@ import com.prod.todo.repository.TodoLogRepository;
 import com.prod.todo.repository.TodoRepository;
 import com.prod.todo.service.TodoService;
 import com.prod.todo.util.JsonUtil;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.dao.CannotAcquireLockException;
+import org.springframework.dao.PessimisticLockingFailureException;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.annotation.Isolation;
@@ -20,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -39,7 +45,7 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public Todo getTodoById(Long id) {
-        TodoEntity todoEntity = todoRepository.findById(id).orElse(new TodoEntity());
+        TodoEntity todoEntity = todoRepository.findByIdWithTasks(id).orElse(new TodoEntity());
         return modelMapper.map(todoEntity, Todo.class);
     }
 
@@ -84,6 +90,30 @@ public class TodoServiceImpl implements TodoService {
                 throw ex;
             }
         });
+    }
+
+    @Override
+    @Retryable(
+            retryFor = { OptimisticLockException.class, CannotAcquireLockException.class, PessimisticLockingFailureException.class },
+            maxAttempts = 3,
+            backoff = @Backoff(delay = 1000)
+    )
+    @Transactional(
+            isolation = Isolation.SERIALIZABLE,
+            propagation = Propagation.REQUIRES_NEW,
+            timeout = 10000
+    )
+    public Todo update(Todo todo) {
+        Optional<TodoEntity> optEntity = todoRepository.findById(todo.getId());
+        if(optEntity.isPresent()){
+            TodoEntity todoEntity = optEntity.get();
+            todoEntity.setTitle(todo.getTitle());
+            todoEntity.setDescription(todo.getDescription());
+            todoEntity.setStatus(todo.getStatus());
+            todoEntity.setCompleted(todo.isCompleted());
+            TodoEntity saved = todoRepository.save(todoEntity);
+            return todoMapper.toModel(saved);
+        }else return new Todo();
     }
 
 }

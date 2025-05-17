@@ -1,6 +1,8 @@
 import Box from '@mui/material/Box';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import type { Todo } from '../../models/TodoModel';
+import { useEffect, useState } from 'react';
+import { TodoService } from '../../api/services/todoService';
 
 const TodoGrid = () => {
 
@@ -48,13 +50,31 @@ const TodoGrid = () => {
         { field: 'updatedBy', headerName: 'Updated By', flex: 1 },
         { field: 'localeCreatedAt', headerName: 'Locale Created At', flex: 1.3 },
         { field: 'localeUpdatedAt', headerName: 'Locale Updated At', flex: 1.3 },
-      ];
+    ];
+
+    const [todos, setTodos] = useState<Todo[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        const fetchTodos = async () => {
+            try {
+              const data = await TodoService.getAll();
+              setTodos(data);
+            } catch (error) {
+              console.error('Failed to fetch todos:', error);
+            } finally {
+              setLoading(false);
+            }
+          };
+      
+          fetchTodos();
+    },[])
 
 
     return (
         <Box sx={{ flexGrow: 1 }}>
           <DataGrid
-            rows={sampleData}
+            rows={todos}
             columns={columns}
             initialState={{
               pagination: {
@@ -64,7 +84,6 @@ const TodoGrid = () => {
             pageSizeOptions={[5]}
             checkboxSelection
             disableRowSelectionOnClick
-            autoHeight={false}
           />
         </Box>
     );

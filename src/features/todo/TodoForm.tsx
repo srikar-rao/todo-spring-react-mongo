@@ -8,6 +8,7 @@ const TodoForm: React.FC = () => {
         id: 0,
         title: '',
         description: '',
+        targetDate: new Date(),
         status: TodoStatusEnum.PENDING,
         isCompleted: false,
         version: 1,
@@ -27,7 +28,7 @@ const TodoForm: React.FC = () => {
 
     const setTitle = (title: string) => setTodo(prev => ({ ...prev, title }));
     const setDescription = (description: string) => setTodo(prev => ({ ...prev, description }));
-    const setTargetDate = (targetDate: string) => setTodo(prev => ({ ...prev, localeCreatedAt: targetDate }));
+    const setTargetDate = (targetDate: string) => setTodo(prev => ({ ...prev, targetDate: new Date(targetDate), localeCreatedAt: targetDate }));
 
     const isFormValid = todo.title.trim() !== '' && todo.description.trim() !== '' && todo.localeCreatedAt.trim() !== '';
     const isFormDirty = todo.title.trim() !== '' || todo.description.trim() !== '' || todo.localeCreatedAt.trim() !== '';

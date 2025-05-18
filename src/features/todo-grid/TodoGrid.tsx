@@ -29,6 +29,7 @@ const TodoGrid = () => {
     { field: 'id', headerName: 'ID', flex: 0.3 },
     { field: 'title', headerName: 'Title', flex: 1, editable: true },
     { field: 'description', headerName: 'Description', flex: 1.5, editable: true },
+    { field: 'targetDate', headerName: 'Target Date', flex: 1.5, editable: true },
     { field: 'status', headerName: 'Status', flex: 1, editable: true },
     { field: 'isCompleted', headerName: 'Completed', flex: 0.7, type: 'boolean', editable: true },
     { field: 'version', headerName: 'Version', flex: 0.5 },

@@ -23,6 +23,6 @@ export const TodoService = {
       },
     
       delete: async (id: number): Promise<void> => {
-        await axiosTodo.delete(`/todo/delete${id}`);
+        await axiosTodo.delete(`/todo/delete/${id}`);
       },
 }

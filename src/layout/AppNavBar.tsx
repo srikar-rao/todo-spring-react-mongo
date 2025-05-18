@@ -21,6 +21,7 @@ const AppNavBar: React.FC = () => {
                 <Button color="inherit" component={Link} to="/">Home</Button>
                 <Button color="inherit" component={Link} to="/create">Create</Button>
                 <Button color="inherit" component={Link} to="/todos">Todos</Button>
+                <Button color="inherit" component={Link} to="/edit">Edit</Button>
                 <Button color="inherit" onClick={logout}>Logout</Button>
             </Toolbar>
         </AppBar>

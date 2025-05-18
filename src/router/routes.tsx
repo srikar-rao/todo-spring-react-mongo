@@ -1,3 +1,4 @@
+import EditTodo from "../pages/EditTodo";
 import Home from "../pages/Home";
 import NotFound from "../pages/NotFound";
 import Todo from "../pages/Todo";
@@ -13,6 +14,11 @@ export const routes = [
         path: '/create',
         element: <Todo/>,
         label: 'Create',
+    },
+    {
+        path: '/edit',
+        element: <EditTodo/>,
+        label: 'EditTodo',
     },
     {
         path: '/todos',

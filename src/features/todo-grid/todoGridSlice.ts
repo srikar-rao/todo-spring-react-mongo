@@ -1,5 +1,6 @@
 import type { Todo } from '../../models/TodoModel';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import { getCurrentTimestamp } from '../../utils/dataTimeUtils';
 
 export interface TodoGridState {
   todos: Todo[];
@@ -25,7 +26,7 @@ const todoGridSlice = createSlice({
     fetchTodosSuccess: (state, action: PayloadAction<Todo[]>) => {
       state.loading = false;
       state.todos = action.payload;
-      state.lastFetchedAt = new Date().toISOString();
+      state.lastFetchedAt = getCurrentTimestamp();
     },
     fetchTodosFailure: (state, action: PayloadAction<string>) => {
       state.loading = false;

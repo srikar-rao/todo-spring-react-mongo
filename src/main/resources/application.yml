@@ -81,12 +81,12 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:9095/realms/todo-realm
+          issuer-uri: http://localhost:9095/realms/todo-web-app
       client:
         registration:
           keycloak:
             client-id: todo-client
-#            client-secret: Nd05WHlrQhFKWrJPVTXL9cAWuSUF33K2       # Only if confidential client; omit for public
+#            client-secret: xxxx       # Only if confidential client; omit for public
 #            authorization-grant-type: client_credentials
             scope: openid
         provider:

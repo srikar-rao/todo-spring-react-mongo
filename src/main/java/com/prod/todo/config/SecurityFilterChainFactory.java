@@ -21,6 +21,7 @@ public class SecurityFilterChainFactory {
         );
 
         http.csrf(AbstractHttpConfigurer::disable);
+        http.cors(Customizer.withDefaults());
 
         if (!securityEnabled) {
             return http

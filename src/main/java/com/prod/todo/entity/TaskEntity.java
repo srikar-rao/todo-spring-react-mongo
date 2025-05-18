@@ -18,7 +18,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name = "todo")
+@Table(name = "todo_tasks")
 @EntityListeners(AuditingEntityListener.class)
 public class TaskEntity {
 

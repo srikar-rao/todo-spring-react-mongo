@@ -5,6 +5,8 @@ import com.prod.todo.enums.TodoStatus;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,6 +22,8 @@ public class Todo {
     private String title;
 
     private String description;
+
+    private LocalDate targetDate;
 
     private TodoStatus status;
 

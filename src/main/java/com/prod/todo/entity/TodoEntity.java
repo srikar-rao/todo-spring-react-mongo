@@ -10,7 +10,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -24,15 +26,13 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class TodoEntity {
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id", nullable = false, updatable = false)
-    @OrderBy("createdAt ASC")
-    List<TaskEntity> tasks = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String description;
+    @Column(name = "target_date", nullable = false)
+    private LocalDate targetDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 50)
     @Builder.Default
@@ -48,5 +48,10 @@ public class TodoEntity {
     private Instant updatedAt;
     @LastModifiedBy
     private String updatedBy;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "todo_id", nullable = false, updatable = false)
+    @OrderBy("createdAt ASC")
+    List<TaskEntity> tasks = new ArrayList<>();
 
 }

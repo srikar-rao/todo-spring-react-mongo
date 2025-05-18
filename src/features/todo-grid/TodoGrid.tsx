@@ -75,14 +75,16 @@ const TodoGrid = () => {
               >
                 Delete
               </MenuItem>
-              <MenuItem
-                onClick={() => {
+                {!params.row.isCompleted && (
+                <MenuItem
+                  onClick={() => {
                   handleComplete(params.row);
                   handleMenuClose();
-                }}
-              >
-                Complete
-              </MenuItem>
+                  }}
+                >
+                  Complete
+                </MenuItem>
+                )}
             </Menu>
           </>
         );

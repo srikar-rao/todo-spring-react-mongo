@@ -93,8 +93,10 @@ const TodoGrid = () => {
   ];
 
   useEffect(() => {
-    dispatch(fetchTodosRequest());
-  }, [dispatch]);
+    if (!todosGrid.lastFetchedAt) {
+      dispatch(fetchTodosRequest());
+    }
+  }, [dispatch, todosGrid.lastFetchedAt]);
 
   return (
     <>

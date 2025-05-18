@@ -1,13 +1,27 @@
-
-import Container from '@mui/material/Container';
 import type { ReactNode } from 'react';
+import Box from '@mui/material/Box';
 import AppNavBar from './AppNavBar';
+import AppFooter from './AppFooter';
 
-const Layout = ({ children }: { children: ReactNode }) => (
-  <>
-    <AppNavBar />
-    <Container sx={{ mt: 4 }}>{children}</Container>
-  </>
-);
+const Layout = ({ children }: { children: ReactNode }) => {
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
+      <AppNavBar />
+
+    <Box
+      component="main"
+      sx={{
+        flex: 1,
+        overflowY: 'scroll', // Changed to 'scroll' for overflow
+        padding: '20px', // 20px padding around the main component
+      }}
+    >
+      {children}
+    </Box>
+
+      <AppFooter />
+    </Box>
+  );
+};
 
 export default Layout;

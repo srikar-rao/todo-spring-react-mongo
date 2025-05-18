@@ -12,11 +12,13 @@ import java.util.List;
 @Mapper(componentModel = "spring", imports = {TodoMapperHelper.class})
 public interface TodoMapper {
 
+    @Mapping(target = "isCompleted", source = "completed")
     Todo toModel(TodoEntity entity);
 
     @Named("toModelWithLocaleMapping")
     @Mapping(target = "localeCreatedAt", expression = "java(TodoMapperHelper.formatLocale(entity.getCreatedAt()))")
     @Mapping(target = "localeUpdatedAt", expression = "java(TodoMapperHelper.formatLocale(entity.getUpdatedAt()))")
+    @Mapping(target = "isCompleted", source = "completed")
     Todo toModelWithLocale(TodoEntity entity);
 
     @IterableMapping(qualifiedByName = "toModelWithLocaleMapping")

@@ -1,5 +1,6 @@
 package com.prod.todo.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.prod.todo.enums.TodoStatus;
 import lombok.*;
 
@@ -22,6 +23,7 @@ public class Todo {
 
     private TodoStatus status;
 
+    @JsonProperty("isCompleted")
     private boolean isCompleted;
 
     private Long version;

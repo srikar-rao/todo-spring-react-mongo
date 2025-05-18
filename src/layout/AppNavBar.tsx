@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
+import { logout } from '../auth/keycloakService';
 
 const AppNavBar: React.FC = () => {
     return (
@@ -20,6 +21,7 @@ const AppNavBar: React.FC = () => {
                 <Button color="inherit" component={Link} to="/">Home</Button>
                 <Button color="inherit" component={Link} to="/create">Create</Button>
                 <Button color="inherit" component={Link} to="/todos">Todos</Button>
+                <Button color="inherit" onClick={logout}>Logout</Button>
             </Toolbar>
         </AppBar>
     );

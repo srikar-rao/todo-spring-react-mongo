@@ -5,24 +5,29 @@ import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import type { RootState } from '../../app/store';
 import { fetchTodosRequest, deleteTodoRequest, updatedTodoRequest, type TodoGridState } from './todoGridSlice';
-import { Menu, MenuItem, IconButton } from '@mui/material';
+import { Menu, MenuItem, IconButton, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { TodoStatusEnum, type Todo } from '../../models/TodoModel';
 
 const TodoGrid = () => {
   const dispatch = useAppDispatch();
-  const todosGrid : TodoGridState = useAppSelector((state: RootState) => state.todoGrid);
+  const todosGrid: TodoGridState = useAppSelector((state: RootState) => state.todoGrid);
 
   const handleDelete = (id: number) => {
     dispatch(deleteTodoRequest(id));
   };
 
   const handleComplete = (todoRow: GridRowModel<Todo>) => {
-    const updatedTodo : Todo = {
+    const updatedTodo: Todo = {
       ...todoRow,
-      isCompleted: true, status: TodoStatusEnum.COMPLETED,
+      isCompleted: true,
+      status: TodoStatusEnum.COMPLETED,
     };
     dispatch(updatedTodoRequest(updatedTodo));
+  };
+
+  const handleRefresh = () => {
+    dispatch(fetchTodosRequest());
   };
 
   const columns: GridColDef[] = [
@@ -91,21 +96,30 @@ const TodoGrid = () => {
 
   return (
     <>
-    <h4>Last fetched at : {todosGrid.lastFetchedAt}</h4>
-    <Box sx={{ flexGrow: 1 }}>
-      <DataGrid
-        rows={todosGrid.todos}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5]}
-        checkboxSelection
-        disableRowSelectionOnClick
-      />
-    </Box>
+      <h4>Last fetched at : {todosGrid.lastFetchedAt}</h4>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+        <Button
+          variant="contained"
+          color="success"
+          onClick={handleRefresh}
+        >
+          Refresh
+        </Button>
+      </Box>
+      <Box sx={{ flexGrow: 1 }}>
+        <DataGrid
+          rows={todosGrid.todos}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
     </>
   );
 };

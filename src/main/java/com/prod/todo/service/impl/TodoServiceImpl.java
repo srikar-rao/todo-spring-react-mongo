@@ -111,7 +111,7 @@ public class TodoServiceImpl implements TodoService {
             todoEntity.setDescription(todo.getDescription());
             todoEntity.setStatus(todo.getStatus());
             todoEntity.setCompleted(todo.isCompleted());
-            TodoEntity saved = todoRepository.save(todoEntity);
+            TodoEntity saved = todoRepository.saveAndFlush(todoEntity);
             return todoMapper.toModelWithLocale(saved);
         }else return new Todo();
     }

@@ -8,6 +8,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { initKeycloak } from './auth/keycloakService.ts';
 import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './app/store.ts';
 // Removed ReactDOM import as createRoot is imported from 'react-dom/client'
 
 
@@ -15,7 +17,9 @@ initKeycloak().then(authenticated => {
   if (authenticated) {
     createRoot(document.getElementById('root')!).render(
       <React.StrictMode>
-        <App />
+          <Provider store={store}>
+            <App />
+          </Provider>
       </React.StrictMode>
     );
   } else {

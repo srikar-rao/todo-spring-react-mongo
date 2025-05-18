@@ -1,8 +1,11 @@
 import Box from '@mui/material/Box';
 import { DataGrid, type GridColDef } from '@mui/x-data-grid';
 import type { Todo } from '../../models/TodoModel';
-import { useEffect, useState } from 'react';
-import { TodoService } from '../../api/services/todoService';
+import { useEffect } from 'react';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { fetchTodosRequest } from './todoGridSlice';
+import type { RootState } from '../../app/store';
 
 const TodoGrid = () => {
 
@@ -20,23 +23,13 @@ const TodoGrid = () => {
         { field: 'localeUpdatedAt', headerName: 'Locale Updated At', flex: 1.3 },
     ];
 
-    const [todos, setTodos] = useState<Todo[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const dispatch = useAppDispatch();
+    const { todos, loading } = useAppSelector((state) => state.todoGrid);
 
+  
     useEffect(() => {
-        const fetchTodos = async () => {
-            try {
-              const data = await TodoService.getAll();
-              setTodos(data);
-            } catch (error) {
-              console.error('Failed to fetch todos:', error);
-            } finally {
-              setLoading(false);
-            }
-          };
-      
-          fetchTodos();
-    },[])
+      dispatch(fetchTodosRequest());
+    }, [dispatch]);
 
 
     return (

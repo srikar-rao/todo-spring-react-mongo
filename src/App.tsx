@@ -1,14 +1,15 @@
 import './App.css'
-import TodoGrid from './features/todo-grid/TodoGrid'
-import TodoForm from './features/todo/TodoForm.tsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Layout from './layout/Layout'
+import AppRouter from './router/AppRouter'
 
 function App() {
-
   return (
-    <div>
-      <TodoGrid />
-      <TodoForm/>
-    </div>
+    <BrowserRouter>
+    <Layout>
+      <AppRouter />
+    </Layout>
+    </BrowserRouter>
   )
 }
 

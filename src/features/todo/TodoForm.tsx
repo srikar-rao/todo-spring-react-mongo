@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Box, Typography } from '@mui/material';
+import { TextField, Button, Box, Typography, Snackbar, Alert } from '@mui/material';
 import { TodoService } from '../../api';
 import { TodoStatusEnum, type Todo } from '../../models/TodoModel';
 
@@ -20,6 +20,11 @@ const TodoForm: React.FC = () => {
         tasks: [],
     });
 
+    const [notification, setNotification] = useState<{ message: string; severity: 'success' | 'error' | null }>({
+        message: '',
+        severity: null,
+    });
+
     const setTitle = (title: string) => setTodo(prev => ({ ...prev, title }));
     const setDescription = (description: string) => setTodo(prev => ({ ...prev, description }));
     const setTargetDate = (targetDate: string) => setTodo(prev => ({ ...prev, localeCreatedAt: targetDate }));
@@ -31,8 +36,17 @@ const TodoForm: React.FC = () => {
         console.log('Save clicked', { title: todo.title, description: todo.description, targetDate: todo.localeCreatedAt });
         const todoWithStatus = { ...todo, status: TodoStatusEnum.PENDING };
         TodoService.create(todoWithStatus)
-            .then(() => console.log('Todo created successfully'))
-            .catch((error) => console.error('Error creating todo:', error));
+            .then(() => {
+                console.log('Todo created successfully');
+                setNotification({ message: 'Todo saved successfully!', severity: 'success' });
+                setTitle('');
+                setDescription('');
+                setTargetDate('');
+            })
+            .catch((error) => {
+                console.error('Error creating todo:', error);
+                setNotification({ message: 'Error saving todo. Please try again.', severity: 'error' });
+            });
     };
 
     const handleCancel = () => {
@@ -40,6 +54,10 @@ const TodoForm: React.FC = () => {
         setDescription('');
         setTargetDate('');
         console.log('Cancel clicked');
+    };
+
+    const handleCloseNotification = () => {
+        setNotification({ message: '', severity: null });
     };
 
     return (
@@ -57,6 +75,18 @@ const TodoForm: React.FC = () => {
             <Typography variant="h5" textAlign="center">
                 Create Todo
             </Typography>
+            {notification.severity && (
+                <Snackbar
+                    open={!!notification.message}
+                    autoHideDuration={6000}
+                    onClose={handleCloseNotification}
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                >
+                    <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
+                        {notification.message}
+                    </Alert>
+                </Snackbar>
+            )}
             <TextField
                 label="Title"
                 variant="outlined"

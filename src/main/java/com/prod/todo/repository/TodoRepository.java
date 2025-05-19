@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface TodoRepository extends JpaRepository<TodoEntity, Long> {
 
-    @Query("SELECT t FROM TodoEntity t LEFT JOIN FETCH t.tasks")
+    @Query("SELECT t FROM TodoEntity t LEFT JOIN FETCH t.tasks ORDER BY t.createdAt DESC")
     @ReadOnlyQuery
     List<TodoEntity> findAllWithTasks();
 

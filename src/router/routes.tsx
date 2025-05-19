@@ -36,7 +36,7 @@ export const routes = [
     },
     {
         path: '/settings',
-        element: <ProtectedRoute element={<AdminPage/>} roles={['ADMIN', 'USER']} />,
+        element: <ProtectedRoute element={<SettingsPage/>} roles={['ADMIN', 'USER']} />,
         label: 'Settings',
         roles: ['ADMIN', 'USER'],
     },

@@ -7,6 +7,8 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import Button from '@mui/material/Button';
 import { logout } from '../auth/keycloakService';
+import { routes } from '../router/routes';
+
 
 const AppNavBar: React.FC = () => {
     return (
@@ -18,10 +20,18 @@ const AppNavBar: React.FC = () => {
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     Todo App
                 </Typography>
-                <Button color="inherit" component={Link} to="/">Home</Button>
-                <Button color="inherit" component={Link} to="/create">Create</Button>
-                <Button color="inherit" component={Link} to="/todos">Todos</Button>
-                <Button color="inherit" component={Link} to="/edit">Edit</Button>
+                {routes
+                    .filter((route: { path: string; }) => route.path !== '*') // Exclude the 404 route
+                    .map(route => (
+                        <Button
+                            key={route.path}
+                            color="inherit"
+                            component={Link}
+                            to={route.path}
+                        >
+                            {route.label}
+                        </Button>
+                    ))}
                 <Button color="inherit" onClick={logout}>Logout</Button>
             </Toolbar>
         </AppBar>

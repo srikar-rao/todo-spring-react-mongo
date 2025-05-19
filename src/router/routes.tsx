@@ -18,7 +18,7 @@ export const routes = [
     {
         path: '/edit',
         element: <EditTodo/>,
-        label: 'EditTodo',
+        label: 'Edit',
     },
     {
         path: '/todos',

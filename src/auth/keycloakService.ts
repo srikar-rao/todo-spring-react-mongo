@@ -12,3 +12,8 @@ export const getUsername = (): string | undefined =>
 
 export const getUserInfo = () => keycloak.tokenParsed;
 
+export const hasAnyRole = (roles: string[] = []): boolean => {
+  const userRoles = keycloak?.tokenParsed?.realm_access?.roles ?? [];
+  return roles.some((role) => userRoles.includes(role));
+};
+

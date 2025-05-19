@@ -40,9 +40,7 @@ const TodoForm: React.FC = () => {
             .then(() => {
                 console.log('Todo created successfully');
                 setNotification({ message: 'Todo saved successfully!', severity: 'success' });
-                setTitle('');
-                setDescription('');
-                setTargetDate('');
+                handleFormReset();
             })
             .catch((error) => {
                 console.error('Error creating todo:', error);
@@ -50,7 +48,7 @@ const TodoForm: React.FC = () => {
             });
     };
 
-    const handleCancel = () => {
+    const handleFormReset = () => {
         setTitle('');
         setDescription('');
         setTargetDate('');
@@ -130,7 +128,7 @@ const TodoForm: React.FC = () => {
                 <Button
                     variant="outlined"
                     color="secondary"
-                    onClick={handleCancel}
+                    onClick={handleFormReset}
                     disabled={!isFormDirty}
                 >
                     Cancel

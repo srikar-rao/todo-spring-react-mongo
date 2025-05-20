@@ -7,23 +7,31 @@ import {
     TextareaAutosize,
     Container,
 } from '@mui/material';
+import { hasAnyRole } from '../auth/keycloakService';
+import RbacWrapper from '../auth/rbacWrapper';
+
+interface Settings {
+    title: string;
+    description: string;
+}
 
 const SettingsPage: React.FC = () => {
+    const [settings, setSettings] = useState<Settings>({
+        title: 'Settings',
+        description: 'Manage your application settings here.',
+    });
+    const [tempSettings, setTempSettings] = useState<Settings>(settings);
     const [isEditing, setIsEditing] = useState(false);
-    const [title, setTitle] = useState('Settings');
-    const [description, setDescription] = useState('Manage your application settings here.');
-    const [tempTitle, setTempTitle] = useState(title);
-    const [tempDescription, setTempDescription] = useState(description);
+
+    const canEdit = hasAnyRole(['ADMIN']);
 
     const handleEdit = () => {
-        setTempTitle(title);
-        setTempDescription(description);
+        setTempSettings(settings);
         setIsEditing(true);
     };
 
     const handleSave = () => {
-        setTitle(tempTitle);
-        setDescription(tempDescription);
+        setSettings(tempSettings);
         setIsEditing(false);
     };
 
@@ -31,11 +39,13 @@ const SettingsPage: React.FC = () => {
         setIsEditing(false);
     };
 
-    const isSaveDisabled = tempTitle === title && tempDescription === description;
+    const isSaveDisabled =
+        tempSettings.title === settings.title &&
+        tempSettings.description === settings.description;
 
     return (
         <Container maxWidth="sm" style={{ padding: '20px' }}>
-            {isEditing ? (
+            {isEditing && canEdit ? (
                 <Box>
                     <Typography variant="h4" gutterBottom>
                         Edit Settings
@@ -44,8 +54,10 @@ const SettingsPage: React.FC = () => {
                         <TextField
                             label="Title"
                             fullWidth
-                            value={tempTitle}
-                            onChange={(e) => setTempTitle(e.target.value)}
+                            value={tempSettings.title}
+                            onChange={(e) =>
+                                setTempSettings({ ...tempSettings, title: e.target.value })
+                            }
                         />
                     </Box>
                     <Box marginBottom={2}>
@@ -55,8 +67,10 @@ const SettingsPage: React.FC = () => {
                         <TextareaAutosize
                             minRows={4}
                             style={{ width: '100%' }}
-                            value={tempDescription}
-                            onChange={(e) => setTempDescription(e.target.value)}
+                            value={tempSettings.description}
+                            onChange={(e) =>
+                                setTempSettings({ ...tempSettings, description: e.target.value })
+                            }
                         />
                     </Box>
                     <Box display="flex" justifyContent="flex-start" gap={2}>
@@ -76,14 +90,17 @@ const SettingsPage: React.FC = () => {
             ) : (
                 <Box>
                     <Typography variant="h4" gutterBottom>
-                        {title}
+                        {settings.title}
                     </Typography>
                     <Typography variant="body1" gutterBottom>
-                        {description}
+                        {settings.description}
                     </Typography>
-                    <Button variant="contained" color="primary" onClick={handleEdit}>
-                        Edit
-                    </Button>
+                    <RbacWrapper allowedRoles={['ADMIN']} fallback={<>Only Admin can edit this.</>}>
+                        <Button variant="contained" color="primary" onClick={handleEdit}>
+                            Edit
+                        </Button>
+                    </RbacWrapper>
+                    
                 </Box>
             )}
         </Container>

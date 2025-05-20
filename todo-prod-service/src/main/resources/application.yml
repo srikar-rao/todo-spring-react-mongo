@@ -1,0 +1,116 @@
+management:
+  server:
+    port: 8082  # Actuator runs on its own port (recommended for prod)
+  endpoints:
+    web:
+      exposure:
+        include: health, info, prometheus
+  endpoint:
+    prometheus:
+      enabled: true
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+    distribution:
+      percentiles-histogram:
+        http.server.requests: true  # Enable histogram buckets for latency
+      percentiles:
+        http.server.requests: 0.5, 0.95, 0.99  # Useful percentiles for latency monitoring
+    enable:
+      http: true  # Ensures HTTP metrics are emitted
+
+  tracing:
+    sampling:
+      probability: 1.0   # 100% sampling for dev; reduce for production
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+
+spring:
+  application:
+    name: todo-service
+
+  threads:
+    virtual:
+      enabled: true
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/todo
+#    username: todo_user
+#    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 30000           # 30 sec idle timeout
+      max-lifetime: 1800000         # 30 min max lifetime
+      connection-timeout: 20000     # 20 sec connection wait
+      leak-detection-threshold: 30000  # Set only for diagnosing issues; remove in prod
+      validation-timeout: 5000
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false        # Disable Open Session in View for cleaner architecture
+    hibernate:
+      ddl-auto: update       # Strict mode: validate schema, don’t auto-create
+    show-sql: false            # Disable in prod, can override in dev
+    properties:
+      hibernate:
+        format_sql: false
+        jdbc:
+          time_zone: UTC
+        order_inserts: true
+        order_updates: true
+        batch_size: 1000         # Enable batching for performance
+        generate_statistics: false
+        connection:
+          autocommit: false
+  sql:
+    init:
+      mode: never
+
+  jackson:
+    time-zone: UTC
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+
+  security:
+    enabled: false
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9095/realms/todo-web-app
+      client:
+        registration:
+          keycloak:
+            client-id: todo-client
+#            client-secret: xxxx       # Only if confidential client; omit for public
+#            authorization-grant-type: client_credentials
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:9095/realms/todo-realm
+
+server:
+  port: 8080
+  servlet:
+    context-path: /todo-service
+
+logging:
+  level:
+    root: INFO
+    com.prod.todo: DEBUG
+    org.springframework.transaction: DEBUG
+    org.springframework.orm.jpa: DEBUG
+    org.springframework.jdbc.datasource.DataSourceTransactionManager: DEBUG
+
+springdoc:
+  swagger-ui:
+    path: /docs
+    display-request-duration: true
+    persist-authorization: true
+  api-docs:
+    path: /v3/api-docs
+

@@ -1,0 +1,56 @@
+
+!**/src/main/**/build/
+!**/src/main/**/target/
+!**/src/test/**/build/
+!**/src/test/**/target/
+!.mvn/wrapper/maven-wrapper.jar
+!.vscode/extensions.json
+# Editor directories and files
+# IDE
+# Java
+# Logs
+# Node
+### IntelliJ IDEA ###
+### NetBeans ###
+### STS ###
+### VS Code ###
+*.iml
+*.ipr
+*.iws
+*.local
+*.log
+*.njsproj
+*.ntvs*
+*.sln
+*.suo
+*.sw?
+.DS_Store
+.apt_generated
+.classpath
+.factorypath
+.idea
+.project
+.settings
+.springBeans
+.sts4-cache
+.vscode/
+.vscode/*
+/.idea/
+/.nb-gradle/
+/.vscode/
+/dist/
+/nbbuild/
+/nbdist/
+/nbproject/private/
+HELP.md
+build/
+dist
+dist-ssr
+lerna-debug.log*
+logs
+node_modules
+npm-debug.log*
+pnpm-debug.log*
+target/
+yarn-debug.log*
+yarn-error.log*

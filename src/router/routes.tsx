@@ -1,11 +1,12 @@
-import EditTodo from "../pages/EditTodo";
-import Home from "../pages/Home";
-import NotFound from "../pages/NotFound";
-import Todo from "../pages/Todo";
-import Todos from "../pages/Todos";
-import AdminPage from "../pages/AdminPage";
-import ProtectedRoute from "./protectedRoute";
-import SettingsPage from "../pages/SettingsPage";
+import React from "react";
+const EditTodo = React.lazy(() => import("../pages/EditTodo"));
+const Home = React.lazy(() => import("../pages/Home"));
+const NotFound = React.lazy(() => import("../pages/NotFound"));
+const Todo = React.lazy(() => import("../pages/Todo"));
+const Todos = React.lazy(() => import("../pages/Todos"));
+const AdminPage = React.lazy(() => import("../pages/AdminPage"));
+const ProtectedRoute = React.lazy(() => import("./protectedRoute"));
+const SettingsPage = React.lazy(() => import("../pages/SettingsPage"));
 
 export const routes = [
     {

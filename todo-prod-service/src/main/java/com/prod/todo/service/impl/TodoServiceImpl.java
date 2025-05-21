@@ -56,19 +56,22 @@ public class TodoServiceImpl implements TodoService {
             propagation = Propagation.REQUIRES_NEW,
             timeout = 10000
     )
-    public Todo saveTodo(Todo todo) {
-        TodoEntity newTodo = todoRepository.save(
-                todoMapper.toNewEntity(todo)
-        );
+    public Todo saveTodo(String userId, Todo todo) {
+
+        TodoEntity newEntity = todoMapper.toNewEntity(todo);
+        newEntity.setUserId(userId);
+
+        TodoEntity savedTodo = todoRepository.save(newEntity);
+
         todoLogRepository.save(
                 TodoLogEntity
                         .builder()
-                        .todoId(newTodo.getId())
-                        .snapshot(JsonUtil.toJsonNode(newTodo))
+                        .todoId(savedTodo.getId())
+                        .snapshot(JsonUtil.toJsonNode(savedTodo))
                         .build()
         );
-        log.info("Successfully saved todo : {}", newTodo);
-        return todoMapper.toModelWithLocale(newTodo);
+        log.info("Successfully saved todo : {}", savedTodo);
+        return todoMapper.toModelWithLocale(savedTodo);
     }
 
     @Override

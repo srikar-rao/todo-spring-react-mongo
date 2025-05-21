@@ -77,7 +77,7 @@ class TodoControllerWebMvcTest {
                 .generate(field(Todo::getId), gen -> gen.longSeq().start(1L))
                 .create();
 
-        given(todoService.saveTodo(any())).willReturn(todo);
+        given(todoService.saveTodo(userId, any())).willReturn(todo);
 
         mockMvc.perform(post("/todo/save")
                         .contentType(MediaType.APPLICATION_JSON)

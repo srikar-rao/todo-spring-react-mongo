@@ -1,3 +1,4 @@
+import { getUserId } from "../../auth/keycloakService";
 import type { Todo } from "../../models/TodoModel";
 import axiosTodo from "../instances/axiosTodo";
 
@@ -13,7 +14,8 @@ export const TodoService = {
       },
     
       create: async (todo: Partial<Todo>): Promise<Todo> => {
-        const res = await axiosTodo.post('/todo/save', todo);
+        const userId = getUserId();
+        const res = await axiosTodo.post(`/todo/save/${userId}`, todo);
         return res.data;
       },
     

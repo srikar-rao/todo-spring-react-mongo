@@ -65,12 +65,12 @@ public class TodoController {
             @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
     })
     @PostMapping(
-            value = "/save",
+            value = "/save/{userId}",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Todo createTodo(@RequestBody Todo todo) {
-        return todoService.saveTodo(todo);
+    public Todo createTodo(@PathVariable String userId, @RequestBody Todo todo) {
+        return todoService.saveTodo(userId, todo);
     }
 
     @Operation(

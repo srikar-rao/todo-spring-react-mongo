@@ -29,6 +29,8 @@ public class TodoEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id", nullable = false)
+    private String userId;
     private String title;
     private String description;
     @Column(name = "target_date", nullable = false)

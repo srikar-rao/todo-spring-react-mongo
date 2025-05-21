@@ -92,7 +92,7 @@ class TodoServiceImplUnitTest {
         when(todoLogRepository.save(any())).thenReturn(Instancio.of(TodoLogEntity.class).create());
         when(todoMapper.toModelWithLocale(savedEntity)).thenReturn(expected);
 
-        Todo result = todoService.saveTodo(input);
+        Todo result = todoService.saveTodo(userId, input);
 
         assertThat(result).isEqualTo(expected);
         verify(todoRepository).save(entityToSave);

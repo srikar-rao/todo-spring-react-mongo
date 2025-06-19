@@ -1,39 +1,30 @@
 package com.prod.todo.entity;
 
 import com.prod.todo.enums.TodoStatus;
-import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.annotation.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 
-@Entity
+@Document(collection = "todo_tasks")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ToString
-@Table(name = "todo_tasks")
-@EntityListeners(AuditingEntityListener.class)
 public class TaskEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
     private String title;
     private String description;
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 50)
+    @Field("status")
     @Builder.Default
     private TodoStatus status = TodoStatus.PENDING;
     private boolean isCompleted;
-    @Version
-    private Long version;
     @CreatedDate
     private Instant createdAt;
     @CreatedBy
@@ -42,5 +33,7 @@ public class TaskEntity {
     private Instant updatedAt;
     @LastModifiedBy
     private String updatedBy;
-
+    @Field("version")
+    @Version
+    private Long version;
 }

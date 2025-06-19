@@ -45,12 +45,15 @@ class TodoControllerWebMvcTest {
 
     private Todo generateTodo() {
         return Instancio.of(Todo.class)
-                .generate(field(Todo::getId), gen -> gen.longSeq().start(1L))
+                .generate(field(Todo::getId), gen -> gen.string().alphaNumeric())
                 .create();
     }
 
     private List<Todo> generateTodoList(int size) {
-        return Instancio.ofList(Todo.class).size(size).create();
+        return Instancio.ofList(Todo.class)
+                .size(size)
+                .generate(field(Todo::getId), gen -> gen.string().alphaNumeric())
+                .create();
     }
 
     @Test
@@ -68,7 +71,7 @@ class TodoControllerWebMvcTest {
     @Test
     void getTodoById_WhenExists_ShouldReturnTodo() throws Exception {
         Todo todo = generateTodo();
-        given(todoService.getTodoById(anyLong())).willReturn(todo);
+        given(todoService.getTodoById(any(String.class))).willReturn(todo);
 
         mockMvc.perform(get("/todo/{id}", todo.getId()))
                 .andExpect(status().isOk())
@@ -80,7 +83,7 @@ class TodoControllerWebMvcTest {
         Todo todo = Instancio.of(Todo.class)
                 .ignore(field(Todo::getCreatedAt))
                 .ignore(field(Todo::getUpdatedAt))
-                .generate(field(Todo::getId), gen -> gen.longSeq().start(1L))
+                .generate(field(Todo::getId), gen -> gen.string().alphaNumeric())
                 .create();
 
         given(todoService.saveTodo(any(), any())).willReturn(todo);
@@ -100,9 +103,9 @@ class TodoControllerWebMvcTest {
                 .builder()
                 .message("Deleted successfully")
                 .build();
-        given(todoService.deleteTodo(anyLong())).willReturn(success);
+        given(todoService.deleteTodo(any(String.class))).willReturn(success);
 
-        mockMvc.perform(delete("/todo/delete/{id}", 1L))
+        mockMvc.perform(delete("/todo/delete/{id}", "507f1f77bcf86cd799439011"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.message").value("Deleted successfully"));
     }

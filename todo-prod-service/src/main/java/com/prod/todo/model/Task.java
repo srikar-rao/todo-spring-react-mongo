@@ -13,7 +13,7 @@ import java.time.Instant;
 @Builder
 public class Task {
 
-    private Long id;
+    private String id;
 
     private String title;
 

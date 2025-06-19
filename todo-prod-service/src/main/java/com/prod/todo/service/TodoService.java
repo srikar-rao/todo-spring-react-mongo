@@ -10,11 +10,11 @@ public interface TodoService {
 
     List<Todo> getAllTodos();
 
-    Todo getTodoById(Long id);
+    Todo getTodoById(String id);
 
     Todo saveTodo(String userId, Todo todo);
 
-    ResponseStatus deleteTodo(Long id);
+    ResponseStatus deleteTodo(String id);
 
     Todo update(Todo todo);
 }

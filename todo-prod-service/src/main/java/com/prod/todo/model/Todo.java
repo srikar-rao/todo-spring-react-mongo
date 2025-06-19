@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 public class Todo {
 
-    private Long id;
+    private String id;
 
     private String userId;
 

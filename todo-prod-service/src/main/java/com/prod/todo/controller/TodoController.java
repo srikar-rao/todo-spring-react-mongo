@@ -49,7 +49,7 @@ public class TodoController {
                     content = @Content)
     })
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Todo getTodoById(@PathVariable Long id) {
+    public Todo getTodoById(@PathVariable String id) {
         return todoService.getTodoById(id);
     }
 
@@ -107,7 +107,7 @@ public class TodoController {
             value = "/delete/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseStatus createTodo(@PathVariable Long id) {
+    public ResponseStatus deleteTodo(@PathVariable String id) {
         return todoService.deleteTodo(id);
     }
 
